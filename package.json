@@ -1,0 +1,22 @@
+{
+  "name": "udp-test",
+  "version": "1.0.0",
+  "description": "udp client",
+  "main": "echoClientUdp.js",
+  "scripts": {
+    "start": "node echoClientUdp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nonoroazoro/UDP-TEST.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nonoroazoro/UDP-TEST/issues"
+  },
+  "homepage": "https://github.com/nonoroazoro/UDP-TEST#readme",
+  "dependencies": {
+    "dgram": "^1.0.1"
+  }
+}
