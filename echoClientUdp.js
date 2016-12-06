@@ -166,7 +166,7 @@ function sendMsg()
 }
 
 //start a timer to send message to echoServer
-setInterval(sendMsg, 5000);
+setInterval(sendMsg, 2000);
 
 clientSocket.on('message', function (msg, rinfo)
 {
