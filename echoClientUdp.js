@@ -1,6 +1,6 @@
 var dgram = require('dgram');
 var clientSocket = dgram.createSocket('udp4');
-var sensortype = 801;
+var sensortype = 101;
 
 function sendMsg()
 {	
@@ -33,7 +33,7 @@ function sendMsg()
 		sensortype ++;
 		if (sensortype === 105) 
 		{
-			sensortype = 101;
+			sensortype = 201;
 		}
     }
     else if(sensortype === 201 || sensortype === 202 || sensortype === 203)
