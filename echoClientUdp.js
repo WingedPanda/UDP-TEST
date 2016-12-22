@@ -1,11 +1,11 @@
 var dgram = require('dgram');
 var clientSocket = dgram.createSocket('udp4');
-var sensortype = 101;
+var sensortype = 801;
 
 function sendMsg()
 {	
     var deflection = 5;
-    var displacement = 10;
+    var displacement = 17;
     var verticality = 90;
     var strain = 0.5;
     var cableforce = 650;
@@ -33,7 +33,7 @@ function sendMsg()
 		sensortype ++;
 		if (sensortype === 105) 
 		{
-			sensortype = 201;
+			sensortype = 101;
 		}
     }
     else if(sensortype === 201 || sensortype === 202 || sensortype === 203)
@@ -190,19 +190,35 @@ function sendMsg()
     else if(sensortype === 801 || sensortype === 802)
     {
         corrosion = 0.01;
-		msg = `A0${sensortype}FS${corrosion}B`;
+		msg = `A0${sensortype}FSA${corrosion}B56B`;
 		sensortype ++;
 		if (sensortype === 803) 
 		{
 			sensortype = 101;
 		}
     }
+	
+/* 	//port 5682 test
+	if(sensortype === 801 || sensortype === 802)
+    {
+        corrosion = 1.012929;
+		//msg = 0x413034303146533F81A7A9420D0A;
+		//msg = `A0${sensortype}FS${corrosion}B`;
+		// msg = new Buffer([ 0x41, 0x30, 0x38, 0x30, 0x31, 0x46, 0x53, 0x3F, 0x81, 0xA7, 0xA9, 0x42, 0x55, 0x91, 0x9E,0x42 ]);
+		msg = `A0${sensortype}FSA1.01B56B`;
+		sensortype ++;
+		if (sensortype === 803) 
+		{
+			sensortype = 801;
+		}
+    } */
 
     clientSocket.send(msg, 0, msg.length, 5683);
+	console.log(msg,msg.length)
 }
 
-//start a timer to send message to echoServer
-setInterval(sendMsg, 85);
+//start a timer to send message to echoServer 85
+setInterval(sendMsg, 1000);
 
 clientSocket.on('message', function (msg, rinfo)
 {
