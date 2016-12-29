@@ -5,6 +5,10 @@ var sensortype2 = 501;
 var sensortype3 = 701;
 var sensortype4 = 601;
 var sensortype5 = 801;
+var x = 100;
+var y = 100;
+var z = 100;
+var value = 0;
 
 function sendMsgDisplacementAndVerticality()
 {	
@@ -127,43 +131,48 @@ function sendMsgTemperature()
 
 function sendMsgAcc()
 {	
-    var x = 100;
-    var y = 100;
-    var z = 100;
 	var msg;
 	
     if(sensortype4 === 601 || sensortype4 === 602 || sensortype4 === 603 || sensortype4 === 604 || sensortype4 === 605 || sensortype4 === 606)
     {
-        x += Math.random()*100 - 50;
+/*         x += Math.random()*100 - 50;
         y += Math.random()*100 - 50;
-        z += Math.random()*100 - 50;
+        z += Math.random()*100 - 50; */
+        x = Math.sin(value* 0.017453293 )*100;
+        y = Math.sin(value* 0.017453293 )*100;
+        z = Math.sin(value* 0.017453293 )*100;		
         if (x > 700)
         {
             x = 700;
         }
-        else if (x < 0)
+        else if (x < -700)
         {
-            x = 0;
+            x = -700;
         }
         x = Math.round(x * 10) / 10;
         if (y > 700)
         {
             y = 700;
         }
-        else if (y < 0)
+        else if (y < -700)
         {
-            y = 0;
+            y = -700;
         }
         y = Math.round(y * 10) / 10;
         if (z > 700)
         {
             z = 700;
         }
-        else if (z < 0)
+        else if (z < -700)
         {
-            z = 0;
+            z = -700;
         }
         z = Math.round(z * 10) / 10;
+		value++;
+		if(value > 360)
+		{
+			value = 0;
+		}
 		msg = `A0${sensortype4}X${x}Y${y}Z${z}B`;
 		clientSocket.send(msg, 0, msg.length, 5683);
 		console.log(msg,msg.length)		
