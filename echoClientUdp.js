@@ -135,12 +135,9 @@ function sendMsgAcc()
 	
     if(sensortype4 === 601 || sensortype4 === 602 || sensortype4 === 603 || sensortype4 === 604 || sensortype4 === 605 || sensortype4 === 606)
     {
-/*         x += Math.random()*100 - 50;
-        y += Math.random()*100 - 50;
-        z += Math.random()*100 - 50; */
-        x = Math.sin(value* 0.017453293 )*100;
-        y = Math.sin(value* 0.017453293 )*100;
-        z = Math.sin(value* 0.017453293 )*100;		
+        x = Math.sin(sinvalue* 0.017453293 )*100 + Math.random()*100 - 50;
+        y = Math.sin(sinvalue* 0.017453293 )*100 + Math.random()*100 - 50;
+        z = Math.sin(sinvalue* 0.017453293 )*100 + Math.random()*100 - 50;	
         if (x > 700)
         {
             x = 700;
@@ -197,7 +194,7 @@ function sendMsgCorrosion()
         corrosion = 1.012929;
 		msg = `A0${sensortype5}FSA${corrosion}B56B`;
 		sensortype5 ++;
-		if (sensortype === 803) 
+		if (sensortype5 === 803) 
 		{
 			sensortype5 = 801;
 		}
