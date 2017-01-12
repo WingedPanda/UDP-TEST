@@ -248,8 +248,9 @@ function sendMsgtrafficload()
 	
 	var weight;
 	var time = '07e00101091414';
-	var weightlimit = '4e20';
-	var overweight = '0000';
+	var weightlimit = '0770';
+	var overweight;
+	var overweighttag;
 	var axesweight = ['0000','0000','0000','0000','0000','0000','0000','0000'];
 	for (let i = 0; i < axesnumber; i++)
 	{
@@ -259,6 +260,15 @@ function sendMsgtrafficload()
 	weight = (parseInt(axesweight[0], 16) + parseInt(axesweight[1], 16) + parseInt(axesweight[2], 16) + parseInt(axesweight[3], 16)
 			+ parseInt(axesweight[4], 16) + parseInt(axesweight[5], 16) + parseInt(axesweight[6], 16) + parseInt(axesweight[7], 16)).toString(16);  
 	weight = padLeft(weight,4);
+	overweight = parseInt(weight,16) - parseInt(weightlimit,16);
+	if (overweight <= 0){
+		overweight = '0000';
+		overweighttag = '00';
+	}else{
+		overweight = overweight.toString(16);
+		overweight = padLeft(overweight,4);
+		overweighttag = '01';
+	}
 	var axesvelocity = ['00','00','00','00','00','00','00','00'];
 	for (let i = 0; i < axesnumber; i++)
 	{
@@ -294,14 +304,13 @@ function sendMsgtrafficload()
 		axesequivalentload[i] = padLeft(axesequivalentload[i],4);
 	}
 	var passingtime = '0011';
-	var followtag = '00';
-	var temperaturetag = '00';
+	var acrosstag = '00';
 	var sum = '0095';
 
 	var msg;                                                                                                                                                                                  
 	if(sensortype6 === 901)
     {
-		msg = `${startflag}${commandword}${datalength}${id}${siteid}${lane}${licenseplate}${axesnumberhex}${weight}${time}${weightlimit}${overweight}${axesweight[0]}${axesweight[1]}${axesweight[2]}${axesweight[3]}${axesweight[4]}${axesweight[5]}${axesweight[6]}${axesweight[7]}${axesvelocity[0]}${axesvelocity[1]}${axesvelocity[2]}${axesvelocity[3]}${axesvelocity[4]}${axesvelocity[5]}${axesvelocity[6]}${axesvelocity[7]}${shaftspacing[0]}${shaftspacing[1]}${shaftspacing[2]}${shaftspacing[3]}${shaftspacing[4]}${shaftspacing[5]}${shaftspacing[6]}${totalwheelbase}${carlength}${fronthanginglong}${afterhanginglong}${vehiclespacing}${direction}${vehicletype}${violationtype}${temperature}${correctnesstype}${vehiclespacingtime}${axesgroupweight[0]}${axesgroupweight[1]}${axesgroupweight[2]}${axesgroupweight[3]}${axesgroupweight[4]}${axesgroupweight[5]}${axesgroupweight[6]}${axesgroupweight[7]}${axesequivalentload[0]}${axesequivalentload[1]}${axesequivalentload[2]}${axesequivalentload[3]}${axesequivalentload[4]}${axesequivalentload[5]}${axesequivalentload[6]}${axesequivalentload[7]}${passingtime}${followtag}${temperaturetag}${sum}`;
+		msg = `${startflag}${commandword}${datalength}${id}${siteid}${lane}${licenseplate}${axesnumberhex}${weight}${time}${weightlimit}${overweight}${axesweight[0]}${axesweight[1]}${axesweight[2]}${axesweight[3]}${axesweight[4]}${axesweight[5]}${axesweight[6]}${axesweight[7]}${axesvelocity[0]}${axesvelocity[1]}${axesvelocity[2]}${axesvelocity[3]}${axesvelocity[4]}${axesvelocity[5]}${axesvelocity[6]}${axesvelocity[7]}${shaftspacing[0]}${shaftspacing[1]}${shaftspacing[2]}${shaftspacing[3]}${shaftspacing[4]}${shaftspacing[5]}${shaftspacing[6]}${totalwheelbase}${carlength}${fronthanginglong}${afterhanginglong}${vehiclespacing}${direction}${vehicletype}${violationtype}${temperature}${correctnesstype}${vehiclespacingtime}${axesgroupweight[0]}${axesgroupweight[1]}${axesgroupweight[2]}${axesgroupweight[3]}${axesgroupweight[4]}${axesgroupweight[5]}${axesgroupweight[6]}${axesgroupweight[7]}${axesequivalentload[0]}${axesequivalentload[1]}${axesequivalentload[2]}${axesequivalentload[3]}${axesequivalentload[4]}${axesequivalentload[5]}${axesequivalentload[6]}${axesequivalentload[7]}${passingtime}${acrosstag}${overweighttag}${sum}`;
     }
 
     clientSocket.send(msg, 0, msg.length, 5681);
