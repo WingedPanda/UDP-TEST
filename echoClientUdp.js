@@ -16,6 +16,8 @@ var cableforce = 650;
 var temperature = 10;
 var humidity = 30;
 var corrosion = 0.01;
+var lane = '01';
+var index = 1;
 
 function sendMsgDisplacementAndVerticality()
 {	
@@ -205,28 +207,101 @@ function sendMsgCorrosion()
 }
 
 function sendMsgtrafficload()
-{	
-	let x = Math.ceil(Math.random()*100);
-	if(x < 10)
-	{
-		x = 10;
+{
+	var startflag = 'ff';
+	var commandword = '01';
+	var datalength = '99';
+	var id = '30393031303030303030303030303030';
+	var siteid = '303031303030303030303030303030';
+	if (lane == '01'){
+		lane = '02';
+	}else{
+		lane = '01';
 	}
+	var licenseplate;
+	if (index === 1){
+		licenseplate = 'CBD54136363338310000';
+		index++;
+	}else if(index === 2)
+	{
+		licenseplate = 'CBD54131323133340000';
+		index++;
+	}else if(index === 3)
+	{
+		licenseplate = 'CBD54139313637330000';
+		index++;
+	}else if(index === 4)
+	{
+		licenseplate = 'CBD54132323638310000';
+		index++;
+	}else if(index === 5)
+	{
+		licenseplate = 'CBD54333363334350000';
+		index = 1;
+	}
+	
+	var axesnumber = Math.round(Math.random()*10);
+	if (axesnumber == 0 || axesnumber == 1 || axesnumber == 9){
+		axesnumber = 2;
+	}
+	axesnumberhex = 0+axesnumber.toString(16);
+	
+	var weight;
+	var time = '07e00101091414';
+	var weightlimit = '4e20';
+	var overweight = '0000';
+	var axesweight = ['0000','0000','0000','0000','0000','0000','0000','0000'];
+	for (let i = 0; i < axesnumber; i++)
+	{
+		axesweight[i] = (Math.round(Math.random()*1000)).toString(16);
+		axesweight[i] = padLeft(axesweight[i],4);
+	}
+	weight = (parseInt(axesweight[0], 16) + parseInt(axesweight[1], 16) + parseInt(axesweight[2], 16) + parseInt(axesweight[3], 16)
+			+ parseInt(axesweight[4], 16) + parseInt(axesweight[5], 16) + parseInt(axesweight[6], 16) + parseInt(axesweight[7], 16)).toString(16);  
+	weight = padLeft(weight,4);
+	var axesvelocity = ['00','00','00','00','00','00','00','00'];
+	for (let i = 0; i < axesnumber; i++)
+	{
+		axesvelocity[i] = (Math.round(Math.random()*200)).toString(16);
+		axesvelocity[i] = padLeft(axesvelocity[i],2);
+	}
+	var shaftspacing = ['0000','0000','0000','0000','0000','0000','0000','0000'];
+	for (let i = 0; i < axesnumber-1; i++)
+	{
+		shaftspacing[i] = '00c8';
+	}
+	var totalwheelbase = '00c8';
+	var carlength = '00c8';
+	var fronthanginglong = '00c8';
+	var afterhanginglong = '00c8';
+	var vehiclespacing = '00c8';
+	var direction = '00';
+	var vehicletype = '0001';
+	var violationtype = '00';
+	var temperature = '05';
+	var correctnesstype = '00';
+	var vehiclespacingtime = '0011';
+	var axesgroupweight = ['0000','0000','0000','0000','0000','0000','0000','0000'];
+	for (let i = 0; i < axesnumber; i++)
+	{
+		axesgroupweight[i] = (Math.round(Math.random()*1000)).toString(16);
+		axesgroupweight[i] = padLeft(axesgroupweight[i],4);
+	}	
+	var axesequivalentload = ['0000','0000','0000','0000','0000','0000','0000','0000'];
+	for (let i = 0; i < axesnumber; i++)
+	{
+		axesequivalentload[i] = (Math.round(Math.random()*1000)).toString(16);
+		axesequivalentload[i] = padLeft(axesequivalentload[i],4);
+	}
+	var passingtime = '0011';
+	var followtag = '00';
+	var temperaturetag = '00';
+	var sum = '0095';
 
-/* 	var msg = [0xff,0x01,0x99,0x30,0x39,0x30,0x31,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,  //字节1~19
-			   0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,   //字节20~34
-			   0x01,0xBE,0xA9,0x41,0x31,0x32,0x33,0x34,0x35,0xD1,0xA7,  //字节35~45
-			   0x03,0x17,0x70,0x07,0xe0,0x01,0x01,0x09,0x14,0x14,		//字节46~55
-			   0x4e,0x20,0x03,0xe8,0x17,0x70,0x27,0x10,0x2e,0xe0,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,	//字节56~75
-			   0x04,0x05,0x06,0x00,0x00,0x00,0x00,0x00,		//字节76~83,轴速
-			   0x00,0xc8,0x00,0xc8,0x00,0xc8,0x00,0xc8,0x00,0xc8,0x00,0xc8,0x00,0xc8,0x00,0xc8,0x00,0xc8,0x00,0xc8,0x00,0xc8,0x00,0xc8,		//字节84~107,轴间距等
-			   0x00,0x00,0x01,0x00,0x0a,0x00,0x00,0x11,		//字节108~115
-			   0x03,0xe8,0x03,0xe8,0x03,0xe8,0x03,0xe8,0x03,0xe8,0x03,0xe8,0x03,0xe8,0x03,0xe8,0x03,0xe8,0x03,0xe8,0x03,0xe8,0x03,0xe8,0x03,0xe8,0x03,0xe8,0x03,0xe8,0x03,0xe8,		//字节116~147
-			   0x00,0x11,0x00,0x00,0x00,0x95];  //字节148~153 */
-
-	var msg = '01993030303030303030303030303030303030303030303030303030303030303001BEA9413132333435D1A703177007e001010914144e2003e8177027102ee000000000000000000000040506000000000000c800c800c800c800c800c800c800c800c800c800c800c8000001000a00001103e803e803e803e803e803e803e803e803e803e803e803e803e803e803e803e8001100000095';                                                                                                                                                                                    
+	var msg;                                                                                                                                                                                  
 	if(sensortype6 === 901)
     {
-		msg = `${x}${msg}`;
+		msg = `${startflag}${commandword}${datalength}${id}${siteid}${lane}${licenseplate}${axesnumberhex}${weight}${time}${weightlimit}${overweight}${axesweight[0]}${axesweight[1]}${axesweight[2]}${axesweight[3]}${axesweight[4]}${axesweight[5]}${axesweight[6]}${axesweight[7]}${axesvelocity[0]}${axesvelocity[1]}${axesvelocity[2]}${axesvelocity[3]}${axesvelocity[4]}${axesvelocity[5]}${axesvelocity[6]}${axesvelocity[7]}${shaftspacing[0]}${shaftspacing[1]}${shaftspacing[2]}${shaftspacing[3]}${shaftspacing[4]}${shaftspacing[5]}${shaftspacing[6]}${totalwheelbase}${carlength}${fronthanginglong}${afterhanginglong}${vehiclespacing}${direction}${vehicletype}${violationtype}${temperature}${correctnesstype}${vehiclespacingtime}${axesgroupweight[0]}${axesgroupweight[1]}${axesgroupweight[2]}${axesgroupweight[3]}${axesgroupweight[4]}${axesgroupweight[5]}${axesgroupweight[6]}${axesgroupweight[7]}${axesequivalentload[0]}${axesequivalentload[1]}${axesequivalentload[2]}${axesequivalentload[3]}${axesequivalentload[4]}${axesequivalentload[5]}${axesequivalentload[6]}${axesequivalentload[7]}${passingtime}${followtag}${temperaturetag}${sum}`;
     }
 
     clientSocket.send(msg, 0, msg.length, 5681);
@@ -252,3 +327,18 @@ clientSocket.on('error', function (err)
 });
 
 clientSocket.bind(54321);
+
+function padLeft(str,lenght){ 
+	if(str.length >= lenght)
+	{
+		return str;
+	}else{
+		return padLeft("0" +str,lenght);
+	} 	 
+} 
+function padRight(str,lenght){ 
+	if(str.length >= lenght) 
+	return str; 
+	else 
+	return padRight(str+"0",lenght); 
+}
