@@ -321,7 +321,7 @@ function sendMsgtrafficload()
 setInterval(sendMsgDisplacementAndVerticality, 1000*10);
 setInterval(sendMsgCableforce, 1000*10);
 setInterval(sendMsgTemperature, 1000*30);
-setInterval(sendMsgAcc, 500);
+setInterval(sendMsgAcc, 1500);
 setInterval(sendMsgCorrosion, 1000*60*20); 
 setInterval(sendMsgtrafficload, 1000*5);
 
