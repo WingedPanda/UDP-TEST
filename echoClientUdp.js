@@ -228,7 +228,7 @@ function sendMsgtrafficload()
 		index++;
 	}else if(index === 3)
 	{
-		licenseplate = 'CBD54139313637330000';
+		licenseplate = 'CBD54B39313637330000';
 		index++;
 	}else if(index === 4)
 	{
@@ -237,6 +237,16 @@ function sendMsgtrafficload()
 	}else if(index === 5)
 	{
 		licenseplate = 'CBD54333363334350000';
+		index++;
+	}
+	else if(index === 6)
+	{
+		licenseplate = 'CBD54B35363333350000';
+		index++;
+	}
+	else if(index === 7)
+	{
+		licenseplate = 'CDEE4336313333350000';
 		index = 1;
 	}
 	
